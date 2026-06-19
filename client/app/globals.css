@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-cream: #FDFBF7;
+  --color-slate-dark: #0F172A;
+  --color-slate-muted: #475569;
+  --color-brand-teal: #0D9488;
+  --color-brand-teal-glow: #14B8A6;
+  --color-brand-amber: #F59E0B;
+  --color-brand-amber-dark: #D97706;
+  --color-brand-indigo: #4F46E5;
+  --color-brand-indigo-light: #6366F1;
+  
+  --font-sans: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --background: #FDFBF7;
+  --foreground: #0F172A;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0A0F1D;
+    --foreground: #F1F5F9;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Custom Circuit Path Styles & Animations */
+.circuit-line {
+  position: relative;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-brand-teal) 0px,
+    var(--color-brand-teal) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+/* Glowing text and nodes */
+.glow-teal {
+  box-shadow: 0 0 15px 2px rgba(13, 148, 136, 0.4);
+}
+
+.glow-teal-text {
+  text-shadow: 0 0 8px rgba(20, 184, 166, 0.6);
+}
+
+.glow-amber {
+  box-shadow: 0 0 15px 2px rgba(245, 158, 11, 0.4);
+}
+
+/* Focus indicator override for AA accessibility floor */
+*:focus-visible {
+  outline: 3px solid var(--color-brand-teal);
+  outline-offset: 2px;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Keyframes for drawing circuit animation */
+@keyframes drawCircuit {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite ease-in-out;
 }
