@@ -1,92 +1,160 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #FDFBF7;
-  --color-slate-dark: #0F172A;
-  --color-slate-muted: #475569;
-  --color-brand-teal: #0D9488;
-  --color-brand-teal-glow: #14B8A6;
+  --color-slate-dark: #030712;
+  --color-brand-teal: #00D4AA;
+  --color-brand-teal-glow: #00FFCC;
+  --color-brand-purple: #7C3AED;
+  --color-brand-purple-glow: #A78BFA;
   --color-brand-amber: #F59E0B;
-  --color-brand-amber-dark: #D97706;
   --color-brand-indigo: #4F46E5;
-  --color-brand-indigo-light: #6366F1;
   
-  --font-sans: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
+  --font-display: var(--font-space-grotesk), sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
 }
 
 :root {
-  --background: #FDFBF7;
-  --foreground: #0F172A;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0A0F1D;
-    --foreground: #F1F5F9;
-  }
+  --background: #030712;
+  --foreground: #F9FAFB;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  overflow-x: hidden;
 }
 
-/* Custom Circuit Path Styles & Animations */
-.circuit-line {
+/* Typography styles */
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+/* Shimmer Sweep effect for buttons */
+.shimmer-btn {
   position: relative;
-  background-image: repeating-linear-gradient(
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
     90deg,
-    var(--color-brand-teal) 0px,
-    var(--color-brand-teal) 10px,
-    transparent 10px,
-    transparent 20px
+    transparent,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent
   );
+  transform: skewX(-20deg);
+  transition: none;
 }
 
-/* Glowing text and nodes */
-.glow-teal {
-  box-shadow: 0 0 15px 2px rgba(13, 148, 136, 0.4);
+.shimmer-btn:hover::after {
+  left: 150%;
+  transition: all 0.75s ease-in-out;
 }
 
-.glow-teal-text {
-  text-shadow: 0 0 8px rgba(20, 184, 166, 0.6);
+/* Kinetic Text Reveal mask */
+.kinetic-mask {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
 }
 
-.glow-amber {
-  box-shadow: 0 0 15px 2px rgba(245, 158, 11, 0.4);
+/* CSS Dot Grid Background */
+.bg-dot-grid {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 }
 
-/* Focus indicator override for AA accessibility floor */
-*:focus-visible {
-  outline: 3px solid var(--color-brand-teal);
-  outline-offset: 2px;
-}
-
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Keyframes for drawing circuit animation */
-@keyframes drawCircuit {
+/* Rotating Orbits Animation */
+@keyframes rotateOrbit {
+  from {
+    transform: rotate(0deg);
+  }
   to {
-    stroke-dashoffset: 0;
+    transform: rotate(360deg);
   }
 }
 
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
+@keyframes rotateOrbitCounter {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-orbit {
+  animation: rotateOrbit 25s infinite linear;
+}
+
+.animate-orbit-counter {
+  animation: rotateOrbitCounter 25s infinite linear;
+}
+
+/* Looping Gradient Text */
+@keyframes shiftGradient {
+  0% {
+    background-position: 0% 50%;
   }
   50% {
-    opacity: 1;
-    transform: scale(1.05);
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-.animate-pulse-glow {
-  animation: pulseGlow 2s infinite ease-in-out;
+.animate-gradient-text {
+  background-size: 200% auto;
+  animation: shiftGradient 4s infinite linear;
+}
+
+/* Nav Link Slide Underline */
+.nav-link-underline {
+  position: relative;
+}
+
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--color-brand-teal);
+  transform-origin: bottom left;
+  transition: transform 0.25s ease-out;
+}
+
+.nav-link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Focus styling for keyboard accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-teal);
+  outline-offset: 3px;
+}
+
+/* Animated gradient orbs */
+.orb-pulse {
+  animation: orbPulse 8s infinite alternate ease-in-out;
+}
+
+@keyframes orbPulse {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  100% {
+    transform: translate(30px, -20px) scale(1.1);
+  }
 }
