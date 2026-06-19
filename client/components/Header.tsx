@@ -31,7 +31,7 @@ export default function Header() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? "bg-white/80 dark:bg-slate-dark/80 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm"
+          ? "bg-slate-dark/80 backdrop-blur-md border-b border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
           : "bg-transparent"
       }`}
     >
@@ -43,10 +43,10 @@ export default function Header() {
             className="flex items-center gap-2.5 group focus-visible:ring-2 focus-visible:ring-brand-teal focus-visible:rounded"
             aria-label="AI & Robotics Summer Workshop Logo"
           >
-            <div className="bg-brand-teal p-2 rounded-lg text-white group-hover:scale-105 transition-transform duration-200">
+            <div className="bg-brand-teal p-2 rounded-lg text-slate-dark group-hover:scale-105 transition-transform duration-200 shadow-[0_0_15px_rgba(0,212,170,0.4)]">
               <Cpu size={22} className="stroke-[2.5]" />
             </div>
-            <span className="font-sans font-bold text-lg md:text-xl tracking-tight bg-gradient-to-r from-slate-900 via-brand-teal to-brand-indigo bg-clip-text text-transparent dark:from-white dark:via-brand-teal-glow dark:to-brand-indigo-light">
+            <span className="font-sans font-bold text-lg md:text-xl tracking-tight bg-gradient-to-r from-white via-brand-teal to-brand-purple bg-clip-text text-transparent">
               RoboAI Workshop
             </span>
           </a>
@@ -57,14 +57,14 @@ export default function Header() {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-slate-muted hover:text-brand-teal transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-brand-teal focus-visible:rounded p-1"
+                className="text-sm font-medium text-slate-400 hover:text-white nav-link-underline transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-brand-teal focus-visible:rounded p-1"
               >
                 {link.name}
               </a>
             ))}
             <a
               href="#enroll"
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand-teal hover:bg-brand-teal/90 transition-all duration-200 shadow-md hover:shadow-brand-teal/20 focus-visible:ring-3 focus-visible:ring-brand-teal/50"
+              className="shimmer-btn inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-sm font-bold text-slate-dark bg-brand-teal hover:shadow-[0_0_20px_rgba(0,212,170,0.4)] transition-all duration-200"
             >
               Enroll Now
             </a>
@@ -74,7 +74,7 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
-              className="p-2 rounded-md text-slate-muted hover:text-slate-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-teal"
+              className="p-2 rounded-md text-slate-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-teal"
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label="Toggle Navigation Menu"
@@ -87,14 +87,14 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white dark:bg-slate-dark border-b border-slate-200 dark:border-slate-800" id="mobile-menu">
+        <div className="md:hidden bg-slate-dark border-b border-white/5" id="mobile-menu">
           <div className="px-4 pt-2 pb-6 space-y-3 sm:px-6">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="block text-base font-medium text-slate-muted hover:text-brand-teal hover:bg-slate-50 dark:hover:bg-slate-900 py-2 px-3 rounded-md transition-colors"
+                className="block text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 py-2 px-3 rounded-md transition-colors"
               >
                 {link.name}
               </a>
@@ -103,7 +103,7 @@ export default function Header() {
               <a
                 href="#enroll"
                 onClick={() => setIsOpen(false)}
-                className="block w-full text-center px-4 py-3 rounded-lg text-base font-semibold text-white bg-brand-teal hover:bg-brand-teal/90 transition-colors shadow-md"
+                className="shimmer-btn block w-full text-center px-4 py-3 rounded-lg text-base font-bold text-slate-dark bg-brand-teal"
               >
                 Enroll Now
               </a>

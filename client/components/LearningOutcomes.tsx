@@ -1,195 +1,210 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Award, Code2, Cpu, Eye, Lightbulb } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Award, Code2, Cpu, Eye, Lightbulb, ChevronRight } from "lucide-react";
 
 export default function LearningOutcomes() {
   const outcomes = [
     {
+      id: 1,
       week: "Week 1",
-      title: "AI Foundations & Logic",
-      description: "Understand the core concepts of artificial intelligence and robotics. Learn computational logic through interactive visual games.",
+      title: "AI Foundations & Computational Logic",
+      description: "Understand the core concepts of artificial intelligence and robotics. Learn computational logic through visual game challenges where you program decisions for virtual entities. By the end of this week, students will master logic flow diagrams, loops, and conditional reasoning.",
       icon: Lightbulb,
-      skills: ["Machine Learning Basics", "Algorithmic Thinking", "Pattern Recognition"],
-      color: "border-brand-teal text-brand-teal bg-brand-teal/5",
-      glowColor: "rgba(13, 148, 136, 0.4)",
+      skills: ["Machine Learning Basics", "Algorithmic Thinking", "Pattern Recognition", "Conditional If-Else Logic"],
+      color: "border-brand-teal text-brand-teal bg-brand-teal/10",
+      accentColor: "rgba(0, 212, 170, 0.4)",
     },
     {
+      id: 2,
       week: "Week 2",
-      title: "Visual Robot Programming",
-      description: "Dive into block-based coding structures. Learn to control robot sensors, coordinate motors, and program navigation algorithms.",
+      title: "Visual Robot Programming & Control Loops",
+      description: "Dive into block-based coding structures. Learn to read robot sensors (ultrasonic, light, infrared) and coordinate motor drivers. Students write algorithms for autonomous line-following, obstacle avoidance, and interactive pathfinding.",
       icon: Code2,
-      skills: ["Sequential Logic", "Looping & Conditions", "Sensor Integration"],
-      color: "border-brand-indigo text-brand-indigo bg-brand-indigo/5",
-      glowColor: "rgba(79, 70, 229, 0.4)",
+      skills: ["Feedback Loops", "Sensor Reading Calibration", "Motor Output Control", "Event Handlers"],
+      color: "border-brand-purple text-brand-purple bg-brand-purple/10",
+      accentColor: "rgba(124, 58, 237, 0.4)",
     },
     {
+      id: 3,
       week: "Week 3",
-      title: "Interactive AI Models",
-      description: "Train your own machine learning models using text, image, and voice inputs. Connect these smart models to program your robots.",
+      title: "Interactive AI Models & Decision Systems",
+      description: "Train your own machine learning models using text, image, and voice datasets. Learn how supervised training works. Connect these custom models to your robot's programming so the robot responds to hand signals, voice commands, or object recognition.",
       icon: Cpu,
-      skills: ["Supervised Learning", "Data Collection & Labeling", "AI Decision Making"],
-      color: "border-brand-teal text-brand-teal bg-brand-teal/5",
-      glowColor: "rgba(13, 148, 136, 0.4)",
+      skills: ["Supervised Learning", "Data Gathering & Labeling", "Confidence Thresholds", "Model Deployment"],
+      color: "border-brand-teal text-brand-teal bg-brand-teal/10",
+      accentColor: "rgba(0, 212, 170, 0.4)",
     },
     {
+      id: 4,
       week: "Week 4",
       title: "Capstone Smart Robot Project",
-      description: "Apply your logic, programming, and AI model skills to build an autonomous robot project that solves a real-world task.",
+      description: "Apply your combined logic, programming, and AI model skills to build an autonomous robot project that solves a real-world task (e.g., sorting recycling, searching for objects). Design, test, debug, and optimize your codebase.",
       icon: Eye,
-      skills: ["Systems Engineering", "Testing & Debugging", "Problem Solving"],
-      color: "border-brand-indigo text-brand-indigo bg-brand-indigo/5",
-      glowColor: "rgba(79, 70, 229, 0.4)",
+      skills: ["Systems Engineering", "Debugging Workflows", "Optimization Cycles", "Creative Problem Solving"],
+      color: "border-brand-purple text-brand-purple bg-brand-purple/10",
+      accentColor: "rgba(124, 58, 237, 0.4)",
     },
     {
-      week: "Final outcome",
-      title: "Showcase & Certification",
-      description: "Present your robot project in a live virtual showcase. Graduate with an industry-recognized certificate of accomplishment.",
+      id: 5,
+      week: "Graduate",
+      title: "Live Showcase & Robotics Certification",
+      description: "Pitch and demonstrate your final capstone robot project in a live virtual room to peers and industry instructors. Graduate with a certified, shareable digital credential and a portfolio project you can showcase.",
       icon: Award,
-      skills: ["Project Presentation", "Design Pitching", "Robotics Certification"],
-      color: "border-brand-amber text-brand-amber bg-brand-amber/5",
-      glowColor: "rgba(245, 158, 11, 0.4)",
+      skills: ["Project Presentation", "Visual Design Pitching", "Peer Review Collaboration", "Credential Sharing"],
+      color: "border-brand-amber text-brand-amber bg-brand-amber/10",
+      accentColor: "rgba(245, 158, 11, 0.4)",
     },
   ];
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
+  const [expandedWeek, setExpandedWeek] = useState<number>(1);
 
-  const itemVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 80,
-        damping: 14,
-      },
-    },
+  const toggleWeek = (id: number) => {
+    setExpandedWeek(expandedWeek === id ? 0 : id);
   };
 
   return (
-    <section id="syllabus" className="py-20 lg:py-28 bg-white dark:bg-slate-dark">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="syllabus" className="py-20 lg:py-28 bg-slate-dark relative">
+      {/* Background radial orbs */}
+      <div className="absolute top-1/2 left-[-15%] w-[400px] h-[400px] rounded-full bg-brand-purple/5 blur-[100px] pointer-events-none" />
+      
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 lg:mb-24">
-          <h2 className="font-sans font-extrabold text-3xl sm:text-4xl tracking-tight text-slate-dark dark:text-white mb-4">
-            Our Interactive Curriculum
+          <h2 className="font-sans font-extrabold text-3xl sm:text-4xl tracking-tight text-white mb-4">
+            Curriculum Roadmap
           </h2>
-          <p className="text-lg text-slate-muted dark:text-slate-400">
-            A carefully structured 4-week path. Watch your child advance from foundational computational logic to training their first machine learning robot.
+          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+            Click on each week below to explore the visual block coding syllabus and hand-on projects.
           </p>
         </div>
 
-        {/* Vertical Circuit-Path Curriculum */}
+        {/* Interactive Vertical Timeline Accordion */}
         <div className="relative">
-          {/* Background Circuit Line (The Pathway) */}
-          <div className="absolute left-[27px] md:left-1/2 top-4 bottom-4 w-1 -translate-x-1/2 bg-slate-200 dark:bg-slate-800 pointer-events-none rounded-full" />
+          {/* Main vertical line of the timeline */}
+          <div className="absolute left-[24px] md:left-[28px] top-6 bottom-6 w-0.5 bg-white/5 pointer-events-none rounded-full" />
           
-          {/* Foreground glowing circuit path line */}
+          {/* Dynamic Scroll-linked Progress-Fill Vertical Line */}
           <motion.div
             initial={{ height: 0 }}
-            whileInView={{ height: "100%" }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute left-[27px] md:left-1/2 top-4 bottom-4 w-1 -translate-x-1/2 bg-gradient-to-b from-brand-teal via-brand-indigo to-brand-amber pointer-events-none rounded-full shadow-[0_0_12px_rgba(20,184,166,0.5)]"
+            whileInView={{ height: `${(expandedWeek / 5) * 100}%` }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="absolute left-[24px] md:left-[28px] top-6 w-0.5 bg-gradient-to-b from-brand-teal via-brand-purple to-brand-amber pointer-events-none rounded-full shadow-[0_0_8px_rgba(0,212,170,0.5)]"
           />
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="space-y-12 md:space-y-16"
-          >
-            {outcomes.map((outcome, index) => {
+          <div className="space-y-6">
+            {outcomes.map((outcome) => {
               const IconComponent = outcome.icon;
-              const isEven = index % 2 === 0;
+              const isExpanded = expandedWeek === outcome.id;
+              
+              // Determine active theme color
+              const activeColor = outcome.id % 2 !== 0 ? "text-brand-teal" : "text-brand-purple";
+              const glowClass = outcome.id % 2 !== 0 
+                ? "shadow-[0_0_15px_rgba(0,212,170,0.3)] bg-brand-teal border-brand-teal" 
+                : "shadow-[0_0_15px_rgba(124,58,237,0.3)] bg-brand-purple border-brand-purple";
 
               return (
-                <motion.div
-                  key={outcome.title}
-                  variants={itemVariants}
-                  className={`flex flex-col md:flex-row items-start relative ${
-                    isEven ? "md:flex-row-reverse" : ""
+                <div
+                  key={outcome.id}
+                  className={`relative flex items-start transition-all duration-300 ${
+                    isExpanded ? "scale-[1.01]" : ""
                   }`}
                 >
-                  
-                  {/* Glowing Node in center (positioned over the line) */}
-                  <div className="absolute left-[27px] md:left-1/2 top-10 w-6 h-6 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none z-25">
-                    {/* Node Core */}
-                    <div
-                      className={`w-3.5 h-3.5 rounded-full border-2 border-white dark:border-slate-900 shadow-sm`}
-                      style={{
-                        backgroundColor: outcome.week.startsWith("Week 1") || outcome.week.startsWith("Week 3") 
-                          ? "var(--color-brand-teal)" 
-                          : outcome.week.startsWith("Week 2") || outcome.week.startsWith("Week 4")
-                            ? "var(--color-brand-indigo)"
-                            : "var(--color-brand-amber)"
-                      }}
-                    />
-                    {/* Glowing outer ring */}
-                    <div
-                      className="absolute inset-0 rounded-full animate-ping opacity-35"
-                      style={{
-                        backgroundColor: outcome.week.startsWith("Week 1") || outcome.week.startsWith("Week 3") 
-                          ? "var(--color-brand-teal)" 
-                          : outcome.week.startsWith("Week 2") || outcome.week.startsWith("Week 4")
-                            ? "var(--color-brand-indigo)"
-                            : "var(--color-brand-amber)"
-                      }}
-                    />
+                  {/* Timeline Numbered Nodes */}
+                  <div className="absolute left-0 top-[18px] z-10">
+                    <motion.button
+                      onClick={() => toggleWeek(outcome.id)}
+                      className={`w-12 h-12 md:w-14 md:h-14 rounded-full border flex items-center justify-center font-display font-black text-sm md:text-base cursor-pointer focus:outline-none transition-all duration-350 ${
+                        isExpanded
+                          ? `${glowClass} text-slate-dark border-transparent`
+                          : "bg-slate-900 border-white/10 text-slate-400 hover:border-brand-teal/40 hover:text-white"
+                      }`}
+                      aria-label={`${outcome.week} details`}
+                    >
+                      {outcome.id}
+                    </motion.button>
                   </div>
 
-                  {/* Card Content Container */}
-                  <div className="w-full md:w-[45%] pl-14 md:pl-0 md:px-6">
-                    <div className="bg-slate-50 dark:bg-slate-950 p-6 md:p-8 rounded-2xl border border-slate-200/60 dark:border-slate-800/60 shadow-sm hover:shadow-lg transition-all duration-300 group hover:-translate-y-1 hover:border-slate-350 dark:hover:border-slate-750 focus-within:ring-2 focus-within:ring-brand-teal">
+                  {/* Accordion Card */}
+                  <div className="w-full pl-16 md:pl-20">
+                    <div className={`bg-slate-900/40 backdrop-blur-sm rounded-2xl border transition-all duration-300 overflow-hidden ${
+                      isExpanded 
+                        ? "border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.25)]" 
+                        : "border-white/5 hover:border-white/10"
+                    }`}>
                       
-                      {/* Week/Step Badge */}
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border tracking-wider uppercase mb-4 ${outcome.color}`}>
-                        <IconComponent size={13} />
-                        <span>{outcome.week}</span>
-                      </span>
-
-                      {/* Heading */}
-                      <h3 className="font-sans font-bold text-xl text-slate-dark dark:text-white mb-2 leading-tight">
-                        {outcome.title}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-slate-muted dark:text-slate-400 text-sm leading-relaxed mb-4">
-                        {outcome.description}
-                      </p>
-
-                      {/* Skill Tags */}
-                      <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-200/50 dark:border-slate-800/50">
-                        {outcome.skills.map((skill) => (
-                          <span
-                            key={skill}
-                            className="bg-white dark:bg-slate-900 text-slate-muted dark:text-slate-300 text-xs px-2.5 py-1 rounded-md border border-slate-100 dark:border-slate-850 font-medium"
-                          >
-                            {skill}
+                      {/* Accordion Header */}
+                      <button
+                        onClick={() => toggleWeek(outcome.id)}
+                        aria-expanded={isExpanded}
+                        className="w-full flex items-center justify-between p-5 md:p-6 text-left focus:outline-none"
+                      >
+                        <div className="space-y-1">
+                          <span className={`text-[10px] font-black tracking-widest uppercase block ${
+                            isExpanded ? activeColor : "text-slate-400"
+                          }`}>
+                            {outcome.week}
                           </span>
-                        ))}
-                      </div>
+                          <h3 className="font-sans font-bold text-base md:text-lg text-white leading-snug">
+                            {outcome.title}
+                          </h3>
+                        </div>
+
+                        <ChevronRight
+                          size={18}
+                          className={`text-slate-400 transition-transform duration-300 ${
+                            isExpanded ? "transform rotate-90 text-brand-teal" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {/* Accordion Body */}
+                      <AnimatePresence initial={false}>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeInOut" }}
+                          >
+                            <div className="p-5 md:p-6 pt-0 border-t border-white/5 space-y-5 bg-slate-950/20">
+                              
+                              <p className="text-slate-300 text-sm leading-relaxed font-normal">
+                                {outcome.description}
+                              </p>
+
+                              {/* Skills Tags */}
+                              <div className="space-y-2">
+                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">
+                                  Skills Developed
+                                </span>
+                                <div className="flex flex-wrap gap-2">
+                                  {outcome.skills.map((skill) => (
+                                    <span
+                                      key={skill}
+                                      className="bg-white/5 text-slate-350 text-xs px-3 py-1 rounded-md border border-white/5 font-medium hover:bg-white/10 transition-colors"
+                                    >
+                                      {skill}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
 
                     </div>
                   </div>
 
-                  {/* Empty Spacer on other side (desktop only) */}
-                  <div className="hidden md:block md:w-[45%]" />
-
-                </motion.div>
+                </div>
               );
             })}
-          </motion.div>
+          </div>
         </div>
 
       </div>
