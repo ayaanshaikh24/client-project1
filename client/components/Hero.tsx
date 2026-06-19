@@ -1,39 +1,107 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Bot, Sparkles, Terminal } from "lucide-react";
+import { ArrowRight, Bot } from "lucide-react";
+import CanvasParticles from "./CanvasParticles";
 
 export default function Hero() {
+  // Split heading for kinetic reveal mask
+  const headingWord1 = "AI &".split("");
+  const headingWord2 = "Robotics".split("");
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.04,
+      },
+    },
+  };
+
+  const letterVariants = {
+    hidden: { y: "110%" },
+    visible: {
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
+    },
+  };
+
+  const orbitBadges = [
+    { name: "LOGIC", style: { left: "50%", top: "8%", transform: "translate(-50%, -50%)" }, color: "border-brand-teal/20" },
+    { name: "ROBOTS", style: { left: "92%", top: "50%", transform: "translate(-50%, -50%)" }, color: "border-brand-purple/20" },
+    { name: "AI", style: { left: "50%", top: "92%", transform: "translate(-50%, -50%)" }, color: "border-brand-teal/20" },
+    { name: "BLOCK CODE", style: { left: "8%", top: "50%", transform: "translate(-50%, -50%)" }, color: "border-brand-purple/20" },
+  ];
+
   return (
-    <section id="overview" className="relative overflow-hidden py-16 lg:py-24 xl:py-32">
-      {/* Decorative Grid Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(13,148,136,0.12),rgba(253,251,247,0))] pointer-events-none" />
+    <section id="overview" className="relative overflow-hidden py-16 lg:py-24 xl:py-32 bg-slate-dark bg-dot-grid">
+      
+      {/* Neural Network Canvas Particle Background */}
+      <CanvasParticles />
+
+      {/* Blurred Neon Gradient Orbs */}
+      <div className="absolute top-1/4 left-[-10%] w-[350px] h-[350px] rounded-full bg-brand-teal/15 blur-[100px] pointer-events-none orb-pulse" />
+      <div className="absolute bottom-1/4 right-[-10%] w-[400px] h-[400px] rounded-full bg-brand-purple/15 blur-[120px] pointer-events-none orb-pulse" style={{ animationDelay: "-4s" }} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center">
           
           {/* Hero Left Content */}
           <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8">
-            {/* Badge */}
+            
+            {/* Live Slot Counter Badge */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-teal/10 text-brand-teal dark:text-brand-teal-glow font-sans text-xs sm:text-sm font-semibold tracking-wider uppercase border border-brand-teal/20"
+              className="flex flex-col items-center lg:items-start space-y-2 bg-slate-900/80 backdrop-blur border border-white/5 px-4 py-2.5 rounded-xl shadow-lg"
             >
-              <Sparkles size={14} className="animate-spin-slow" />
-              <span>Limited Summer Slots Available</span>
+              <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-350">
+                <span className="flex h-2.5 w-2.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-teal opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-teal"></span>
+                </span>
+                <span>12 of 30 slots remaining for Summer 2026</span>
+              </div>
+              <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden mt-1">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "60%" }} // 18 filled, 12 remaining (60%)
+                  transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}
+                  className="bg-brand-teal h-full rounded-full"
+                />
+              </div>
             </motion.div>
 
-            {/* Main Heading */}
+            {/* Headline with kinetic text reveal mask */}
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-sans font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-tight text-slate-dark dark:text-white"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="font-sans font-extrabold text-4xl sm:text-5xl lg:text-7.5xl tracking-tight leading-tight text-white"
             >
-              AI & Robotics <br />
-              <span className="bg-gradient-to-r from-brand-teal via-brand-indigo to-brand-amber bg-clip-text text-transparent">
+              <div className="block">
+                {headingWord1.map((char, index) => (
+                  <span key={index} className="kinetic-mask">
+                    <motion.span variants={letterVariants} className="inline-block">
+                      {char === " " ? "\u00A0" : char}
+                    </motion.span>
+                  </span>
+                ))}
+              </div>
+              <div className="block">
+                {headingWord2.map((char, index) => (
+                  <span key={index} className="kinetic-mask">
+                    <motion.span variants={letterVariants} className="inline-block">
+                      {char === " " ? "\u00A0" : char}
+                    </motion.span>
+                  </span>
+                ))}
+              </div>
+              <span className="block mt-2 font-display bg-gradient-to-r from-brand-teal via-brand-purple to-brand-amber bg-[length:200%_auto] animate-gradient-text bg-clip-text text-transparent font-extrabold leading-none">
                 Summer Workshop
               </span>
             </motion.h1>
@@ -42,8 +110,8 @@ export default function Hero() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="max-w-xl text-lg text-slate-muted dark:text-slate-300 leading-relaxed font-normal"
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="max-w-xl text-lg text-slate-400 leading-relaxed font-normal"
             >
               Ignite your child's curiosity this summer! A 4-week interactive online journey where kids ages 8–14 build block-based AI models, program virtual robots, and learn critical engineering and logic skills.
             </motion.p>
@@ -52,127 +120,64 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto pt-2"
             >
               <a
                 href="#enroll"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold text-white bg-brand-teal hover:bg-brand-teal/90 transition-all duration-200 shadow-lg hover:shadow-brand-teal/30 hover:-translate-y-0.5 focus-visible:ring-3 focus-visible:ring-brand-teal/50"
+                className="shimmer-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold text-slate-dark bg-brand-teal hover:shadow-[0_0_25px_rgba(0,212,170,0.4)] transition-all duration-200"
               >
                 <span>Enroll Now</span>
                 <ArrowRight size={18} />
               </a>
               <a
                 href="#syllabus"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold text-slate-dark dark:text-white bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850 hover:border-slate-300 transition-all duration-200 focus-visible:ring-3 focus-visible:ring-slate-200"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-200"
               >
                 <span>Explore Curriculum</span>
               </a>
             </motion.div>
           </div>
 
-          {/* Hero Right Composition (Custom SVG / Graphic illustration) */}
+          {/* Hero Right Composition (Custom Animated Orbital SVG) */}
           <div className="lg:col-span-5 flex justify-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative w-full max-w-[400px] aspect-square flex items-center justify-center"
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="relative w-full max-w-[360px] aspect-square flex items-center justify-center"
             >
-              {/* Glowing Background Glows */}
-              <div className="absolute w-72 h-72 rounded-full bg-brand-teal/10 dark:bg-brand-teal/5 blur-3xl" />
-              <div className="absolute w-60 h-60 rounded-full bg-brand-indigo/10 dark:bg-brand-indigo/5 blur-2xl" />
+              {/* Core robot node pulsing */}
+              <div className="absolute w-36 h-36 rounded-full bg-slate-900 border border-brand-teal/40 flex items-center justify-center shadow-[0_0_35px_rgba(0,212,170,0.25)] animate-pulse-glow z-20">
+                <Bot size={54} className="text-brand-teal" />
+              </div>
 
-              {/* Custom Tech SVG Composition */}
-              <svg
-                width="100%"
-                height="100%"
-                viewBox="0 0 400 400"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="relative z-10 drop-shadow-xl"
-              >
-                {/* Outer decorative ring */}
-                <circle cx="200" cy="200" r="170" stroke="url(#gradient-teal-indigo)" strokeWidth="1" strokeDasharray="5 5" opacity="0.6" />
-                
-                {/* Circuit paths */}
-                <path d="M 60,200 L 140,200 L 160,180" stroke="url(#gradient-teal)" strokeWidth="2" strokeDasharray="3 3" />
-                <path d="M 340,200 L 260,200 L 240,220" stroke="url(#gradient-indigo)" strokeWidth="2" strokeDasharray="3 3" />
-                <path d="M 200,60 L 200,120" stroke="url(#gradient-amber)" strokeWidth="1.5" />
-                
-                {/* Connector dots */}
-                <circle cx="60" cy="200" r="4" fill="var(--color-brand-teal)" />
-                <circle cx="340" cy="200" r="4" fill="var(--color-brand-indigo)" />
-                
-                {/* central circle backdrop */}
-                <circle cx="200" cy="200" r="80" fill="var(--color-cream)" className="dark:fill-slate-900" stroke="url(#gradient-teal-indigo)" strokeWidth="2" />
-                <circle cx="200" cy="200" r="72" fill="url(#gradient-teal-indigo)" opacity="0.08" />
+              {/* Orbital Paths wrapper (CSS Rotated) */}
+              <div className="absolute w-full h-full animate-orbit">
+                {/* Visual orbital ring */}
+                <div className="absolute inset-0 rounded-full border border-white/5 pointer-events-none" />
+                <div className="absolute inset-4 rounded-full border border-brand-teal/10 pointer-events-none" />
 
-                {/* Animated circuit lines inside SVG */}
-                <g className="animate-pulse-glow">
-                  {/* Glowing core */}
-                  <circle cx="200" cy="200" r="55" fill="url(#gradient-teal-glow)" opacity="0.15" />
-                  <circle cx="200" cy="200" r="40" fill="url(#gradient-teal)" opacity="0.2" />
-                </g>
+                {/* Floating counter-rotated orbital label badges */}
+                {orbitBadges.map((badge, idx) => (
+                  <div
+                    key={badge.name}
+                    style={badge.style}
+                    className="absolute z-30"
+                  >
+                    <div className="animate-orbit-counter">
+                      <span className={`inline-block px-3 py-1.5 rounded-lg text-[10px] font-bold text-white bg-slate-950/95 border ${badge.color} shadow-lg tracking-wider`}>
+                        {badge.name}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
 
-                {/* Robot/Bot Character Icon inside SVG */}
-                <svg x="160" y="160" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-teal dark:text-brand-teal-glow">
-                  <rect width="18" height="10" x="3" y="11" rx="2" />
-                  <circle cx="12" cy="5" r="2" />
-                  <path d="M12 7v4M8 16h.01M16 16h.01M6 11V9a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" />
-                </svg>
-
-                {/* Tech badges floating */}
-                <g transform="translate(70, 90)">
-                  <rect width="90" height="34" rx="8" fill="white" className="dark:fill-slate-800" stroke="#E2E8F0" strokeWidth="1" />
-                  <circle cx="18" cy="17" r="8" fill="#E0F2FE" />
-                  <path d="M15 17h6" stroke="#0284C7" strokeWidth="1.5" />
-                  <text x="34" y="21" fontFamily="sans-serif" fontSize="10" fontWeight="bold" fill="var(--color-slate-dark)" className="dark:fill-white">LOGIC</text>
-                </g>
-
-                <g transform="translate(240, 100)">
-                  <rect width="84" height="34" rx="8" fill="white" className="dark:fill-slate-800" stroke="#E2E8F0" strokeWidth="1" />
-                  <circle cx="18" cy="17" r="8" fill="#FEF3C7" />
-                  <circle cx="18" cy="17" r="3" fill="#D97706" />
-                  <text x="34" y="21" fontFamily="sans-serif" fontSize="10" fontWeight="bold" fill="var(--color-slate-dark)" className="dark:fill-white">ROBOTS</text>
-                </g>
-
-                <g transform="translate(240, 270)">
-                  <rect width="70" height="34" rx="8" fill="white" className="dark:fill-slate-800" stroke="#E2E8F0" strokeWidth="1" />
-                  <circle cx="18" cy="17" r="8" fill="#ECEFFE" />
-                  <path d="M18 13v8M15 16h6" stroke="#4F46E5" strokeWidth="1.5" />
-                  <text x="34" y="21" fontFamily="sans-serif" fontSize="10" fontWeight="bold" fill="var(--color-slate-dark)" className="dark:fill-white">AI</text>
-                </g>
-
-                <g transform="translate(70, 280)">
-                  <rect width="105" height="34" rx="8" fill="white" className="dark:fill-slate-800" stroke="#E2E8F0" strokeWidth="1" />
-                  <circle cx="18" cy="17" r="8" fill="#E0F2F1" />
-                  <text x="34" y="21" fontFamily="sans-serif" fontSize="10" fontWeight="bold" fill="var(--color-slate-dark)" className="dark:fill-white">BLOCK CODE</text>
-                </g>
-
-                {/* SVG Gradients definitions */}
-                <defs>
-                  <linearGradient id="gradient-teal-indigo" x1="0" y1="0" x2="400" y2="400" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stopColor="var(--color-brand-teal)" />
-                    <stop offset="100%" stopColor="var(--color-brand-indigo)" />
-                  </linearGradient>
-                  <linearGradient id="gradient-teal" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stopColor="var(--color-brand-teal)" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="var(--color-brand-teal-glow)" stopOpacity="0.2" />
-                  </linearGradient>
-                  <linearGradient id="gradient-indigo" x1="400" y1="0" x2="0" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stopColor="var(--color-brand-indigo)" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="var(--color-brand-indigo-light)" stopOpacity="0.2" />
-                  </linearGradient>
-                  <linearGradient id="gradient-amber" x1="0" y1="0" x2="0" y2="400" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stopColor="var(--color-brand-amber)" />
-                    <stop offset="100%" stopColor="var(--color-brand-amber-dark)" />
-                  </linearGradient>
-                  <linearGradient id="gradient-teal-glow" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="var(--color-brand-teal-glow)" />
-                    <stop offset="100%" stopColor="var(--color-brand-teal)" />
-                  </linearGradient>
-                </defs>
+              {/* Interactive tech grids behind */}
+              <svg width="100%" height="100%" viewBox="0 0 360 360" className="absolute inset-0 pointer-events-none opacity-40">
+                <circle cx="180" cy="180" r="160" stroke="rgba(255,255,255,0.03)" strokeWidth="1" strokeDasharray="6 6" />
+                <circle cx="180" cy="180" r="120" stroke="rgba(0, 212, 170, 0.05)" strokeWidth="1" />
               </svg>
             </motion.div>
           </div>
