@@ -35,7 +35,6 @@ export default function WorkshopDetails() {
     {
       label: "Workshop Fee",
       value: "₹2,999",
-      oldValue: "₹5,999", // Strikethrough price
       description: "All inclusive, lifetime access",
       icon: IndianRupee,
       borderClass: "border-l-4 border-brand-amber",
@@ -108,13 +107,6 @@ export default function WorkshopDetails() {
                       {detail.label}
                     </span>
                     
-                    {/* Handle Strikethrough price for Fee card */}
-                    {detail.oldValue && (
-                      <span className="text-xs font-semibold text-slate-500 line-through block leading-none mb-1">
-                        {detail.oldValue}
-                      </span>
-                    )}
-
                     <span className="text-2xl font-extrabold text-white tracking-tight block">
                       {detail.value}
                     </span>
