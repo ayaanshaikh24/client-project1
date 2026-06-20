@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
 
+let cachedDbConnectionPromise: Promise<typeof mongoose> | null = null;
+
 export const connectDB = async (): Promise<void> => {
-  try {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+
+  if (!cachedDbConnectionPromise) {
     const mongoURI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/workshop";
-    
+
     mongoose.connection.on("connected", () => {
       console.log("MongoDB connection established successfully.");
     });
@@ -16,9 +22,14 @@ export const connectDB = async (): Promise<void> => {
       console.log("MongoDB connection disconnected.");
     });
 
-    await mongoose.connect(mongoURI);
+    cachedDbConnectionPromise = mongoose.connect(mongoURI);
+  }
+
+  try {
+    await cachedDbConnectionPromise;
   } catch (error) {
+    cachedDbConnectionPromise = null; // Reset cache on failure so future calls retry
     console.error("Failed to connect to MongoDB:", error);
-    process.exit(1);
+    throw error;
   }
 };
